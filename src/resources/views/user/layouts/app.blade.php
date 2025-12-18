@@ -15,15 +15,28 @@
                 <img src="{{ asset('images/COACHTECHヘッダーロゴ.png') }}" alt="Coachtech Logo">
             </a>
             @if(Auth::check())
-            <form action="{{route('logout')}}" method="post">
+            <div class="inner_group">
+                <a class="inner_group--item" href="{{ route('user.attendance.index') }}">
+                    勤怠
+                </a>
+
+                <a class="inner_group--item" href="/attendance/list">
+                    勤怠一覧
+                </a>
+
+                <a class="inner_group--item" href="/stamp_correction_request/list">
+                    申請
+                </a>
+
+                {{-- ログアウト --}}
+                <a class="inner_group--item"href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    ログアウト
+                </a>
+
+                <form id="logout-form"action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-                <div class="inner_group">
-                    <a class="inner_group--item" href="/attendance">勤怠</a>
-                    <a class="inner_group--item" href="/attendance/list">勤怠一覧</a>
-                    <a class="inner_group--item" href="/stamp_correction_request/list">申請</a>
-                    <button class="inner_group--item logout-button">ログアウト</button>
-                </div>
-            </form>
+                </form>
+            </div>
             @endif
         </div>
     </header>

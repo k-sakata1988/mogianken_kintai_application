@@ -28,6 +28,13 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // メール認証が必要な保護ルート
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/user/attendance/index',[AttendanceController::class,'index'])->name('user.attendance.index');
-});
+Route::middleware(['auth', 'verified'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+
+        Route::get(
+            '/attendance/index',
+            [AttendanceController::class, 'index']
+        )->name('attendance.index');
+    });

@@ -3,9 +3,9 @@
 }
 
 .header__inner {
+    max-width: 1540px;
     margin: 0 auto;
     padding: 10px 30px;
-    max-width: 1540px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,142 +15,36 @@
     height: 40px;
 }
 
-.header-utilities {
+.inner_group {
     display: flex;
     align-items: center;
-    width: 100%;
     gap: 20px;
 }
 
-.header__search-form {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-
-.header__search-input {
-    width: 60%;
-    max-width: 400px;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-}
-
-.header__search-button {
-    padding: 6px 16px;
-    background-color: #0078d7;
-    color: #fff;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-}
-
-.header-utilities nav {
-    display: flex;
-}
-
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 0;
-    list-style: none;
-}
-
-/* リンク・ボタン */
-.header-nav__link {
+.inner_group--item {
     color: #fff;
     text-decoration: none;
-}
-
-.header-nav__button {
-    border: none;
-    background: transparent;
-    color: #fff;
     font-size: 16px;
     cursor: pointer;
 }
 
-.header-nav__button--sell {
-    background-color: #fff;
-    color: #000;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.header-nav__button--sell:hover {
-    background-color: #e03e3e;
-}
-
-@media (min-width: 1400px) and (max-width: 1540px) {
-    .header__inner {
-        padding: 15px 30px;
-    }
-
-    .header__search-input {
-        width: 50%;
-    }
-
-    .header-nav__link,
-    .header-nav__button--sell {
-        font-size: 16px;
-        padding: 6px 12px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1399px) {
-    .header__inner {
-        padding: 10px 20px;
-    }
-
-    .header__search-input {
-        width: 45%;
-    }
-
-    .header-nav__link,
-    .header-nav__button--sell {
-        font-size: 14px;
-        padding: 5px 10px;
-    }
+.inner_group--item:hover {
+    opacity: 0.7;
 }
 
 @media (max-width: 767px) {
     .header__inner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 10px 15px;
-    }
-
-    .header-utilities {
-        flex-direction: column;
-        width: 100%;
         gap: 10px;
     }
 
-    .header__search-form {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .header__search-input {
-        width: 70%;
-    }
-
-    .header__search-button {
-        padding: 6px 10px;
-    }
-
-    .header-nav {
+    .inner_group {
         flex-wrap: wrap;
-        gap: 8px;
-        width: 100%;
+        gap: 12px;
     }
 
-    .header-nav__link,
-    .header-nav__button--sell {
+    .inner_group--item {
         font-size: 14px;
-        padding: 5px 10px;
     }
 }
