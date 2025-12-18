@@ -3,17 +3,16 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -30,29 +29,58 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fortify::authenticateUsing(function ($request) {
-            $user = \App\Models\User::where('email', $request->email)->first();
+        /**
+         * ログイン処理 + バリデーション
+         */
+        Fortify::authenticateUsing(function (Request $request) {
 
-            if ($user && \Hash::check($request->password, $user->password)) {
-                if (!$user->hasVerifiedEmail()) {
-                    // 未認証ならメール誘導画面へ
-                    session()->flash('verify_notice', 'メール認証を完了してください。');
-                    return null; // 認証失敗扱いにしてリダイレクトさせる
-                }
-                return $user;
+            Validator::make($request->all(), [
+                'email' => ['required', 'email'],
+                'password' => ['required', 'min:8'],
+            ], [
+                'email.required' => 'メールアドレスを入力してください',
+                'email.email' => 'メールアドレスを正しく入力してください',
+                'password.required' => 'パスワードを入力してください',
+                'password.min' => 'パスワードは8文字以上で入力してください',
+            ])->validate();
+
+            $user = User::where('email', $request->email)->first();
+
+            // 認証失敗
+            if (! $user || ! Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => 'メールアドレスまたはパスワードが正しくありません。',
+                ]);
             }
-        });
-        Fortify::registerView(function(){
-            return view('auth.register');
-        });
-        Fortify::loginview(function(){
-            return view('auth.login');
+
+            // メール未認証
+            if (! $user->hasVerifiedEmail()) {
+                throw ValidationException::withMessages([
+                    'email' => 'メール認証を完了してください。',
+                ]);
+            }
+
+            return $user;
         });
 
-        RateLimiter::for('login', function(Request $request){
-            $email = (string) $request->email;
+        /**
+         * ログイン・登録画面
+         */
+        Fortify::loginView(function () {
+            return view('user.auth.login');
+        });
 
-            return Limit::perMinute(10)->by($email . $request->ip());
+        Fortify::registerView(function () {
+            return view('user.auth.register');
+        });
+
+        /**
+         * レートリミット
+         */
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(10)->by(
+                $request->email.$request->ip()
+            );
         });
     }
 }
