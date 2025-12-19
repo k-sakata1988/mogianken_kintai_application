@@ -10,6 +10,15 @@ use App\Models\AttendanceRequest;
 class Attendance extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'date',
+        'clock_in_time',
+        'clock_out_time',
+        'total_working_time',
+        'total_break_time',
+        'is_modified',
+    ];
 
     /**
      * ユーザーを取得
@@ -30,5 +39,19 @@ class Attendance extends Model
      */
     public function requests(){
         return $this->hasMany(AttendanceRequests::class);
+    }
+    public function getStatusAttribute(){
+        if (!$this->clock_in_time) {
+            return 'before_work';
+        }
+
+        if ($this->clock_in_time && !$this->clock_out_time) {
+            $latestBreak = $this->breaks()->latest()->first();
+            if ($latestBreak && !$latestBreak->break_end) {
+                return 'breaking';
+            }
+            return 'working';
+        }
+        return 'finished';
     }
 }

@@ -29,7 +29,7 @@
                 </a>
 
                 {{-- ログアウト --}}
-                <a class="inner_group--item"href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="inner_group--item"href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     ログアウト
                 </a>
 

@@ -9,6 +9,13 @@ use App\Models\Attendance;
 class AttendanceBreak extends Model
 {
     use HasFactory;
+    protected $table = 'breaks';
+
+    protected $fillable = [
+        'attendance_id',
+        'break_start',
+        'break_end',
+    ];
 
     /**
      * 勤怠記録の取得
