@@ -51,3 +51,43 @@
     font-size: 18px;
     margin-top: 20px;
 }
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance__time {
+        font-size: 72px;
+    }
+
+    .attendance__button {
+        width: 180px;
+        font-size: 20px;
+    }
+
+    .attendance__actions {
+        gap: 24px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance__time {
+        font-size: 48px;
+        margin-bottom: 30px;
+    }
+
+    .attendance__date {
+        font-size: 18px;
+    }
+
+    .attendance__actions {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .attendance__button {
+        width: 220px;
+        font-size: 16px;
+    }
+
+    .attendance__message {
+        font-size: 16px;
+    }
+}
