@@ -20,6 +20,12 @@ class Attendance extends Model
         'is_modified',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+        'clock_in_time' => 'datetime',
+        'clock_out_time' => 'datetime',
+    ];
+
     /**
      * ユーザーを取得
      */

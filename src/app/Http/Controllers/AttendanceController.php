@@ -78,4 +78,27 @@ class AttendanceController extends Controller
         ]);
         return redirect()->route('user.attendance.index');
     }
+
+    public function monthly(Request $request)
+    {
+        $month = $request->query('month')? Carbon::createFromFormat('Y-m', $request->query('month')): now();
+
+        $start = $month->copy()->startOfMonth();
+        $end   = $month->copy()->endOfMonth();
+
+        $attendances = Attendance::with('breaks')->where('user_id', auth()->id())
+            ->whereBetween('date', [$start, $end])
+            ->get()->keyBy(fn ($a) => $a->date->format('Y-m-d'));
+
+        $dates = [];
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $dates[] = $date->copy();
+        }
+
+        return view('user.attendance.list', compact(
+            'dates',
+            'attendances',
+            'month'
+        ));
+    }
 }

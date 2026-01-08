@@ -12,13 +12,13 @@ use App\Http\Controllers\AttendanceController;
 
 // 誘導画面（メール未認証時に表示）
 Route::get('/email/verify', function () {
-    return view('user.verification.notice'); // 自作した誘導画面
+    return view('user.verification.notice'); 
 })->middleware('auth')->name('verification.notice');
 
 // メールの認証リンク（クリック後の処理）
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect(route('user.attendance.index')); // 認証完了後の遷移先
+    return redirect(route('user.attendance.index'));
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // 認証メール再送
@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])
 
         Route::post('/attendance/break-end', [AttendanceController::class, 'breakEnd'])
         ->name('attendance.breakEnd');
+
+        Route::get('/attendance/list', [AttendanceController::class, 'monthly'])
+            ->name('attendance.list');
     });
 Route::get('/', function () {
     return redirect()->route('login');
