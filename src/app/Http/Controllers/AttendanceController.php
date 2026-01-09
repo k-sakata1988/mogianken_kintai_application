@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -13,8 +14,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('user_id', auth()->id())
             ->whereDate('date', today())
             ->first();
-        $status = $attendance->status ?? 'before_work';
-        return view('user.attendance.index', compact('attendance', 'status'));
+        return view('user.attendance.index', compact('attendance'));
     }
 
     public function clockIn(){
@@ -35,15 +35,19 @@ class AttendanceController extends Controller
 
         return redirect()->route('user.attendance.index');
     }
+    //実働時間の計算
     public function clockOut()
     {
         $attendance = Attendance::where('user_id', auth()->id())
             ->whereDate('date', today())
             ->firstOrFail();
 
-        $attendance->update([
-            'clock_out_time' => now(),
-        ]);
+        DB::transaction(function () use ($attendance) {
+            $attendance->update([
+                'clock_out_time' => now(),
+                'total_working_time' => $attendance->calculateWorkingMinutes(),
+            ]);
+        });
 
         return redirect()->route('user.attendance.index');
     }
@@ -52,7 +56,8 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::where('user_id', auth()->id())->whereDate('date', today())->firstOrFail();
 
-        $latestBreak = $attendance->breaks()->latest()->first();
+        $attendance->load('breaks');
+        $latestBreak = $attendance->breaks->last();
         if ($latestBreak && !$latestBreak->break_end) {
             return redirect()->route('user.attendance.index');
         }
@@ -63,12 +68,13 @@ class AttendanceController extends Controller
         ]);
         return redirect()->route('user.attendance.index');
     }
-
+    // 休憩時間の計算
     public function breakEnd()
     {
         $attendance = Attendance::where('user_id', auth()->id())->whereDate('date', today())->firstOrFail();
 
-        $latestBreak = $attendance->breaks()->latest()->first();
+        $attendance->load('breaks');
+        $latestBreak = $attendance->breaks->last();
 
         if (!$latestBreak || $latestBreak->break_end) {
             return redirect()->route('user.attendance.index');
@@ -76,9 +82,21 @@ class AttendanceController extends Controller
         $latestBreak->update([
             'break_end' => now(),
         ]);
+
+        $attendance->update([
+            'total_break_time' => $attendance->calculateTotalBreakMinutes(),
+        ]);
+
         return redirect()->route('user.attendance.index');
     }
 
+    public function show(Attendance $attendance){
+        abort_if($attendance->user_id !== auth()->id(), 403);
+        $attendance->load('breaks', 'requests');
+        return view('user.attendance.detail', compact('attendance'));
+    }
+
+    // 一覧表示
     public function monthly(Request $request)
     {
         $month = $request->query('month')? Carbon::createFromFormat('Y-m', $request->query('month')): now();

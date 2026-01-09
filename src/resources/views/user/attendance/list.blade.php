@@ -39,7 +39,8 @@
                 <td>{{ $attendance?->total_working_time ? gmdate('H:i', $attendance->total_working_time * 60) : '' }}</td>
                 <td>
                     @if($attendance)
-                        <a href="#">詳細</a>
+                        <!-- <a href="{{ route('user.attendance.show', $date->format('Y-m-d')) }}">詳細</a> -->
+                        <a href="{{ route('user.attendance.show', $attendance) }}">詳細</a>
                     @endif
                 </td>
             </tr>

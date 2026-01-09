@@ -11,6 +11,20 @@ class AttendanceRequest extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'attendance_id',
+        'request_user_id',
+        'approver_user_id',
+        'before_data',
+        'after_data',
+        'reason',
+        'status',
+    ];
+
+    protected $casts = [
+        'before_data' => 'array',
+        'after_data'  => 'array',
+    ];
     /**
      * 勤怠記録の取得
      */
@@ -30,5 +44,21 @@ class AttendanceRequest extends Model
      */
     public function approver(){
         return $this->belongsTo(User::class, 'approver_user_id');
+    }
+
+    public function isPending(): bool{
+        return $this->status === 'pending';
+    }
+
+    public function isApproved(): bool{
+        return $this->status === 'approved';
+    }
+
+    public function isRejected(): bool{
+        return $this->status === 'rejected';
+    }
+
+    public function scopePending($query){
+        return $query->where('status', 'pending');
     }
 }

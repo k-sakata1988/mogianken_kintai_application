@@ -24,7 +24,7 @@
                     勤怠一覧
                 </a>
 
-                <a class="inner_group--item" href="/stamp_correction_request/list">
+                <a class="inner_group--item" href="{{ route('user.stamp_correction_request.list') }}">
                     申請
                 </a>
 

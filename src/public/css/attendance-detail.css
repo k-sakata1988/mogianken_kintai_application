@@ -1,0 +1,131 @@
+.attendance-detail {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.attendance-detail__title {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 24px;
+}
+
+.attendance-detail__bar {
+    width: 4px;
+    height: 24px;
+    background: #000;
+    margin-right: 10px;
+}
+
+.attendance-detail__card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.detail-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-label {
+    width: 200px;
+    background: #fafafa;
+    padding: 16px;
+    font-weight: bold;
+}
+
+.detail-value {
+    flex: 1;
+    padding: 16px;
+}
+
+.time-range {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-range input {
+    width: 120px;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.detail-value textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.attendance-detail__actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.btn-black {
+    background: #000;
+    color: #fff;
+    padding: 10px 32px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.alert-error {
+    background: #ffecec;
+    color: #b20000;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+}
+
+.error-text {
+    color: #e60000;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-detail {
+        max-width: 1000px;
+    }
+
+    .detail-label {
+        width: 220px;
+    }
+
+    .attendance-detail__title {
+        font-size: 22px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance-detail {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+
+    .detail-row {
+        flex-direction: column;
+    }
+
+    .detail-label {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .detail-value {
+        padding: 12px;
+    }
+
+    .time-range input {
+        width: 90px;
+    }
+
+    .attendance-detail__actions {
+        text-align: center;
+    }
+}

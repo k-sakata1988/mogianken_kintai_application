@@ -20,13 +20,10 @@
         </span>
     </div>
 
-    <div class="attendance__date">
-        {{ now()->format('Y年n月j日(D)') }}
-    </div>
+    <div class="attendance__date" id="current-date"></div>
 
-    <div class="attendance__time">
-        {{ now()->format('H:i') }}
-    </div>
+    <div class="attendance__time" id="current-time"></div>
+
 
     <div class="attendance__actions">
         @if($status === 'before_work')
@@ -60,4 +57,33 @@
         @endif
     </div>
 </div>
+
+<script>
+    function updateDateTime() {
+        const now = new Date();
+
+        const dateOptions = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            weekday: 'short'
+        };
+
+        const date = now.toLocaleDateString('ja-JP', dateOptions);
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('current-date').textContent =
+            date.replace(/\//g, '年').replace(/年(\d+)年/, '$1年').replace(/$/, '日');
+
+        document.getElementById('current-time').textContent =
+            `${hours}:${minutes}`;
+    }
+
+    updateDateTime();
+
+    // 更新間隔
+    setInterval(updateDateTime, 60 * 1000);
+</script>
 @endsection

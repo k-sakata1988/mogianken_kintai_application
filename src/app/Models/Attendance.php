@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AttendanceBreak;
 use App\Models\AttendanceRequest;
+use Carbon\Carbon;
+
 
 class Attendance extends Model
 {
@@ -44,20 +46,52 @@ class Attendance extends Model
      * 修正申請を取得
      */
     public function requests(){
-        return $this->hasMany(AttendanceRequests::class);
+        return $this->hasMany(AttendanceRequest::class);
     }
+
+    public function hasPendingRequest(): bool{
+        return $this->requests()->pending()->exists();
+    }
+
     public function getStatusAttribute(){
         if (!$this->clock_in_time) {
             return 'before_work';
         }
 
         if ($this->clock_in_time && !$this->clock_out_time) {
-            $latestBreak = $this->breaks()->latest()->first();
+            $latestBreak = $this->breaks->last();
             if ($latestBreak && !$latestBreak->break_end) {
                 return 'breaking';
             }
             return 'working';
         }
         return 'finished';
+    }
+
+    public function getTotalBreakTimeAttribute(): int{
+        return $this->calculateTotalBreakMinutes();
+    }
+
+    public function calculateTotalBreakMinutes(): int
+    {
+    return $this->breaks
+        ->whereNotNull('break_end')
+        ->sum(function ($break) {
+            return Carbon::parse($break->break_start)
+                ->diffInMinutes(Carbon::parse($break->break_end));
+        });
+    }
+
+    public function calculateWorkingMinutes(): int{
+        if (! $this->clock_in_time || ! $this->clock_out_time) {
+            return 0;
+        }
+
+        $workMinutes = Carbon::parse($this->clock_in_time)->diffInMinutes(Carbon::parse($this->clock_out_time));
+
+        return max(
+            $workMinutes - ($this->total_break_time ?? 0),
+            0
+        );
     }
 }

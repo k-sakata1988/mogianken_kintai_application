@@ -14,7 +14,14 @@ class CreateAttendanceRequestsTable extends Migration
     public function up()
     {
         Schema::create('attendance_requests', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('request_user_id')->constrained('users');
+            $table->foreignId('approver_user_id')->nullable()->constrained('users');
+
+            $table->json('before_data');
+            $table->json('after_data');
+            $table->text('reason')->nullable();
+            $table->string('status')->default('pending'); // pending / approved / rejected
             $table->timestamps();
         });
     }
