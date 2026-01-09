@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Laravel\Fortify\Contracts\LoginResponse;
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(CreatesNewUsers::class, CreateNewUser::class);
+        $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
     }
 
     /**
@@ -54,9 +57,16 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             // メール未認証
-            if (! $user->hasVerifiedEmail()) {
+            if (! $user->is_admin && ! $user->hasVerifiedEmail()) {
                 throw ValidationException::withMessages([
                     'email' => 'メール認証を完了してください。',
+                ]);
+            }
+
+            // 管理者ログイン画面から来ているのに一般ユーザーだった場合
+            if ($request->login_type === 'admin' && ! $user->is_admin) {
+                throw ValidationException::withMessages([
+                    'email' => '管理者アカウントではありません。',
                 ]);
             }
 

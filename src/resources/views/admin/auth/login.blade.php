@@ -5,23 +5,42 @@
 @endsection
 
 @section('content')
-<div class="admin-login">
-    <h1 class="admin-login__title">管理者ログイン</h1>
+<div class="admin-login__content">
+    <div class="admin-login__heading">
+        <h1>管理者ログイン</h1>
+    </div>
 
-    <form method="POST" action="{{ route('login') }}">
+    <form class="admin-form" method="POST" action="{{ route('login') }}">
         @csrf
+        <input type="hidden" name="login_type" value="admin">
 
-        <div class="admin-login__group">
-            <label>メールアドレス</label>
-            <input type="email" name="email" required>
+        <div class="admin-form__group">
+            <div class="admin-form__group-title">
+                <label>メールアドレス</label>
+            </div>
+            <div class="admin-form__input--text">
+                <input type="email" name="email" value="{{ old('email') }}">
+            </div>
+            @error('email')
+                <div class="form__error">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div class="admin-login__group">
-            <label>パスワード</label>
-            <input type="password" name="password" required>
+        <div class="admin-form__group">
+            <div class="admin-form__group-title">
+                <label>パスワード</label>
+            </div>
+            <div class="admin-form__input--text">
+                <input type="password" name="password">
+            </div>
+            @error('password')
+                <div class="form__error">{{ $message }}</div>
+            @enderror
         </div>
 
-        <button class="admin-login__button">ログイン</button>
+        <div class="admin-form__button">
+            <button class="admin-form__button-submit">ログイン</button>
+        </div>
     </form>
 </div>
 @endsection

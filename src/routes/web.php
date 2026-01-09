@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceRequestController;
+use App\Http\Controllers\Admin\AdminAuthController;
 
 // // トップページ
 // Route::get('/login', function () {
