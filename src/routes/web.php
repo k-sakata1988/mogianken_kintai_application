@@ -7,7 +7,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceRequestController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 // // トップページ
 // Route::get('/login', function () {
 //     return view('auth.login');
@@ -91,6 +91,9 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])
             ->name('attendance.show');
+
+        Route::patch('/attendance/{attendance}', [AttendanceController::class, 'update'])
+            ->name('attendance.update');
     });
 
 Route::get('/', function () {

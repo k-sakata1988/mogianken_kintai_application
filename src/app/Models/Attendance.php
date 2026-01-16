@@ -94,4 +94,16 @@ class Attendance extends Model
             0
         );
     }
+    public function getFormattedBreakTimeAttribute(): string{
+        $minutes = $this->total_break_time;
+
+        if ($minutes <= 0) {
+            return '00:00';
+        }
+
+        $hours = intdiv($minutes, 60);
+        $mins  = $minutes % 60;
+
+        return sprintf('%02d:%02d', $hours, $mins);
+    }
 }

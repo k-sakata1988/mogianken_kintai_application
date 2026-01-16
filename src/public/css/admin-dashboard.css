@@ -1,8 +1,15 @@
+.admin-attendance-wrapper {
+    min-height: calc(100vh - 80px);
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
 
 .admin-attendance {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    width: 100%;
+    max-width: 1000px;
 }
 
 .admin-attendance__title {
@@ -16,8 +23,8 @@
 .admin-attendance__date-card {
     background: #fff;
     border-radius: 12px;
-    padding: 15px 25px;
-    margin-bottom: 35px;
+    padding: 16px 24px;
+    margin-bottom: 30px;
 
     display: flex;
     align-items: center;
@@ -27,7 +34,7 @@
 }
 
 .admin-attendance__date-card a {
-    color: #999;
+    color: #666;
     font-weight: bold;
     text-decoration: none;
 }
@@ -37,15 +44,8 @@
 }
 
 .date-nav__center {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     font-size: 20px;
     font-weight: bold;
-}
-
-.date-icon {
-    font-size: 22px;
 }
 
 .admin-attendance__table {
@@ -86,23 +86,19 @@
 
 @media (min-width: 1400px) and (max-width: 1540px) {
     .admin-attendance {
-        max-width: 1200px;
+        max-width: 1100px;
     }
 
     .admin-attendance__table th,
     .admin-attendance__table td {
-        padding: 16px;
         font-size: 16px;
+        padding: 16px;
     }
 }
 
 @media (min-width: 768px) and (max-width: 850px) {
-    .admin-attendance {
+    .admin-attendance-wrapper {
         padding: 25px 15px;
-    }
-
-    .admin-attendance__title {
-        font-size: 20px;
     }
 
     .admin-attendance__date-card {
