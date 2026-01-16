@@ -32,6 +32,15 @@
     opacity: 0.7;
 }
 
+.header--admin .inner_group {
+    gap: 32px;
+}
+
+.header--admin .inner_group--item {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
 @media (max-width: 767px) {
     .header__inner {
         flex-direction: column;
