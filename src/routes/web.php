@@ -92,7 +92,7 @@ Route::middleware(['auth', 'admin'])
         Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])
             ->name('attendance.show');
 
-        Route::patch('/attendance/{attendance}', [AttendanceController::class, 'update'])
+        Route::patch('/attendance/{attendance}', [AdminAttendanceController::class, 'update'])
             ->name('attendance.update');
     });
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
 use Carbon\Carbon;
+use App\Http\Requests\AdminAttendanceUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -19,7 +20,7 @@ class AttendanceController extends Controller
         return view('admin.attendance.detail', compact('attendance','latestBreak'));
     }
 
-    public function update(Request $request, Attendance $attendance){
+    public function update(AdminAttendanceUpdateRequest $request, Attendance $attendance){
         $attendance->update([
             'clock_in_time' => $request->clock_in_time,
             'clock_out_time' => $request->clock_out_time,

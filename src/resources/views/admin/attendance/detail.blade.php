@@ -16,6 +16,15 @@
     <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}">
         @csrf
         @method('PATCH')
+        @if ($errors->any())
+        <div class="admin-detail-errors">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         <div class="admin-attendance-detail__card">
 
@@ -65,6 +74,9 @@
                 <div class="admin-detail-value">
                     <textarea name="remark">{{ $attendance->remark }}</textarea>
                 </div>
+                @error('remark')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
             </div>
 
         </div>
