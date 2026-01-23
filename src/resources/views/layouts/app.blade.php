@@ -22,7 +22,7 @@
             @if(Auth::check() && Auth::user()->is_admin)
             <div class="inner_group">
                 <a class="inner_group--item" href="{{ route('admin.dashboard') }}">勤怠一覧</a>
-                <a class="inner_group--item" href="#">スタッフ一覧</a>
+                <a class="inner_group--item" href="{{route('admin.staff.list')}}">スタッフ一覧</a>
             <a class="inner_group--item" href="#">申請一覧</a>
             <a class="inner_group--item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             ログアウト

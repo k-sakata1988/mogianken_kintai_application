@@ -94,6 +94,16 @@ Route::middleware(['auth', 'admin'])
 
         Route::patch('/attendance/{attendance}', [AdminAttendanceController::class, 'update'])
             ->name('attendance.update');
+
+        Route::get('/staff', [\App\Http\Controllers\Admin\AdminStaffController::class, 'index'])
+            ->name('staff.list');
+
+        // スタッフ別 月次勤怠一覧
+        Route::get('/staff/{user}/attendance', [\App\Http\Controllers\Admin\AdminStaffController::class, 'attendance'])
+            ->name('staff.attendance');
+
+        Route::get('/staff/{user}/attendance/csv', [\App\Http\Controllers\Admin\StaffAttendanceController::class, 'exportCsv'])
+            ->name('staff.attendance.csv');
     });
 
 Route::get('/', function () {

@@ -1,0 +1,82 @@
+.admin-staff-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-staff-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.admin-staff-title .bar {
+    width: 4px;
+    height: 24px;
+    background: #000;
+    margin-right: 10px;
+}
+
+.admin-staff-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.admin-staff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-staff-table th,
+.admin-staff-table td {
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.admin-staff-table th {
+    background: #fafafa;
+    font-weight: bold;
+}
+
+.admin-staff-table a {
+    color: #000;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .admin-staff-wrapper {
+        max-width: 1100px;
+    }
+
+    .admin-staff-table th,
+    .admin-staff-table td {
+        padding: 18px;
+        font-size: 15px;
+    }
+
+    .admin-staff-title {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .admin-staff-wrapper {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+
+    .admin-staff-table th,
+    .admin-staff-table td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .admin-staff-title {
+        font-size: 18px;
+    }
+
+    .admin-staff-table a {
+        font-size: 13px;
+    }
+}
