@@ -89,6 +89,9 @@ Route::middleware(['auth', 'admin'])
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/requests', [\App\Http\Controllers\Admin\AdminRequestController::class, 'index'])
+            ->name('request.list');
+
         Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])
             ->name('attendance.show');
 
