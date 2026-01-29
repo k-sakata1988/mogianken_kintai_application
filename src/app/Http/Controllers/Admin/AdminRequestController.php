@@ -80,4 +80,23 @@ class AdminRequestController extends Controller
             ->route('admin.request.list')
             ->with('success', '申請を承認しました');
     }
+
+    // public function reject(AttendanceRequest $attendanceRequest)
+    // {
+
+    //     if ($attendanceRequest->status !== 'pending') {
+    //         return redirect()
+    //             ->route('admin.request.list')
+    //             ->with('error', 'すでに処理済みです');
+    //     }
+
+    //     $attendanceRequest->update([
+    //         'status' => 'rejected',
+    //         'approver_user_id' => Auth::id(),
+    //     ]);
+
+    //     return redirect()
+    //         ->route('admin.request.list')
+    //         ->with('success', '申請を却下しました');
+    // }
 }

@@ -66,7 +66,17 @@
     <form method="POST" action="{{ route('admin.request.approve', $attendanceRequest) }}">
         @csrf
         @method('PATCH')
-        <button class="approve-button">承認</button>
+        <button class="approve-button">
+            承認
+        </button>
+    </form>
+
+    <form method="POST"action="{{ route('admin.request.reject', $attendanceRequest) }}">
+        @csrf
+        @method('PATCH')
+        <button class="reject-button">
+            却下
+        </button>
     </form>
 </div>
 

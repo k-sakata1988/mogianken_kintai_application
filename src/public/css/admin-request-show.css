@@ -59,3 +59,92 @@
 .approve-button:hover {
     opacity: 0.85;
 }
+
+/* .reject-button {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reject-button:hover {
+    background-color: #aaa;
+} */
+
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-detail-card {
+        max-width: 1000px;
+        padding: 48px 56px;
+    }
+
+    .attendance-detail-card h2 {
+        font-size: 22px;
+        margin-bottom: 40px;
+    }
+
+    .detail-row .label {
+        width: 180px;
+        font-size: 15px;
+    }
+
+    .detail-row .value {
+        font-size: 16px;
+    }
+
+    .approve-button-wrapper {
+        max-width: 1000px;
+    }
+
+    .approve-button {
+        padding: 14px 48px;
+        font-size: 15px;
+    }
+}
+
+/* =========================
+   タブレット用（768px〜850px）
+========================= */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-detail-card {
+        max-width: 90%;
+        margin: 48px auto;
+        padding: 32px 24px;
+    }
+
+    .attendance-detail-card h2 {
+        font-size: 18px;
+        margin-bottom: 24px;
+    }
+
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 0;
+    }
+
+    .detail-row .label {
+        width: 100%;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .detail-row .value {
+        font-size: 14px;
+    }
+
+    .approve-button-wrapper {
+        max-width: 90%;
+        margin-top: 16px;
+    }
+
+    .approve-button {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 14px;
+    }
+}
