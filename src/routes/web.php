@@ -8,6 +8,9 @@ use App\Http\Controllers\AttendanceRequestController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\AdminStaffController;
+use App\Http\Controllers\Admin\StaffAttendanceController;
+use App\Http\Controllers\Admin\AdminRequestController;
 // // トップページ
 // Route::get('/login', function () {
 //     return view('auth.login');
@@ -98,15 +101,23 @@ Route::middleware(['auth', 'admin'])
         Route::patch('/attendance/{attendance}', [AdminAttendanceController::class, 'update'])
             ->name('attendance.update');
 
-        Route::get('/staff', [\App\Http\Controllers\Admin\AdminStaffController::class, 'index'])
+        Route::get('/staff', [AdminStaffController::class, 'index'])
             ->name('staff.list');
 
         // スタッフ別 月次勤怠一覧
-        Route::get('/staff/{user}/attendance', [\App\Http\Controllers\Admin\AdminStaffController::class, 'attendance'])
+        Route::get('/staff/{user}/attendance', [AdminStaffController::class, 'attendance'])
             ->name('staff.attendance');
 
-        Route::get('/staff/{user}/attendance/csv', [\App\Http\Controllers\Admin\StaffAttendanceController::class, 'exportCsv'])
+        Route::get('/staff/{user}/attendance/csv', [StaffAttendanceController::class, 'exportCsv'])
             ->name('staff.attendance.csv');
+
+        Route::get('/requests/{attendanceRequest}',
+        [AdminRequestController::class, 'show'])
+            ->name('request.show');
+
+        Route::patch('/requests/{attendanceRequest}/approve',[AdminRequestController::class, 'approve'])
+            ->name('request.approve');
+
     });
 
 Route::get('/', function () {
