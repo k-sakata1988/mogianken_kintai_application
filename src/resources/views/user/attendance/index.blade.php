@@ -14,16 +14,18 @@
         <span class="attendance__badge">
             {{
                 $status === 'before_work' ? '勤務外' :
-                ($status === 'working' ? '勤務中' :
+                ($status === 'working' ? '出勤中' :
                 ($status === 'breaking' ? '休憩中' : '退勤済'))
             }}
         </span>
     </div>
 
-    <div class="attendance__date" id="current-date"></div>
-
-    <div class="attendance__time" id="current-time"></div>
-
+    <div class="attendance__date" id="current-date">
+        {{ now()->formatLocalized('%Y年%-m月%-d日(%a)') }}
+    </div>
+    <div class="attendance__time" id="current-time">
+        {{ now()->format('H:i') }}
+    </div>
 
     <div class="attendance__actions">
         @if($status === 'before_work')
@@ -59,31 +61,25 @@
 </div>
 
 <script>
-    function updateDateTime() {
-        const now = new Date();
+function updateDateTime() {
+    const now = new Date();
 
-        const dateOptions = {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            weekday: 'short'
-        };
+    const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short' };
+    const dateStr = now.toLocaleDateString('ja-JP', dateOptions); // 例: "2026/1/30(金)"
 
-        const date = now.toLocaleDateString('ja-JP', dateOptions);
+    const [year, month, dayWithWeek] = dateStr.split('/');
+    const dayParts = dayWithWeek.split('('); // ["30", "金)"]
+    const formattedDate = `${year}年${month}月${dayParts[0]}日(${dayParts[1]}`;
 
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
 
-        document.getElementById('current-date').textContent =
-            date.replace(/\//g, '年').replace(/年(\d+)年/, '$1年').replace(/$/, '日');
+    document.getElementById('current-date').textContent = formattedDate;
+    document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+}
 
-        document.getElementById('current-time').textContent =
-            `${hours}:${minutes}`;
-    }
+updateDateTime();
 
-    updateDateTime();
-
-    // 更新間隔
-    setInterval(updateDateTime, 60 * 1000);
+setInterval(updateDateTime, 60 * 1000);
 </script>
 @endsection

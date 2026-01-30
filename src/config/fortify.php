@@ -149,7 +149,8 @@ return [
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::updateProfileInformation(),
-        Features::updatePasswords(),
+        // Features::updatePasswords(),
+        env('FORCE_PASSWORD_UPDATE', false) ? Features::updatePasswords() : null,
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,

@@ -17,6 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->date('date');
+            $table->string('status')->default('before_work')->comment('勤怠ステータス');
             $table->dateTime('clock_in_time')->nullable();
             $table->dateTime('clock_out_time')->nullable();
             $table->integer('total_working_time')->nullable()->comment('実働時間（分）');

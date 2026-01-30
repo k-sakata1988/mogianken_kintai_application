@@ -11,6 +11,7 @@ Laravel環境構築
 3. cp .env.example .envコマンドで.envファイルを作成し、環境変数を変更(DB_HOST,DB_DATABASE,DB_USER,DB_PASSWORD,MAIL_FROM_ADDRESSを変更)
 4. php artisan key:generate
 5. php artisan migrate
+- テスト環境を使う場合はphp artisan migrate:fresh --env=testingを実施
 6. php artisan db:seed
 7. php artisan test
 
@@ -18,15 +19,12 @@ Laravel環境構築
 ![ER図](./er.drawio.png)
 
 ## ユーザー情報
-#### 管理ユーザー
-id:admin@example.com  
-password:password123  
-#### 一般ユーザー:
-id:  
-pass:  
-#### 一般ユーザー2:
-id:  
-pass:  
+### 管理ユーザー
+-id:admin@example.com / password:password123
+### 一般ユーザー:
+id:user1@example.com / pass:password123
+### 一般ユーザー2:
+id:user1@example.com / pass:password123
 
 ## 使用技術
 - PHP 8.1.33

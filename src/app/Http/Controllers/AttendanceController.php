@@ -11,10 +11,19 @@ use Illuminate\Support\Facades\DB;
 class AttendanceController extends Controller
 {
     public function index(){
-        $attendance = Attendance::where('user_id', auth()->id())
-            ->whereDate('date', today())
-            ->first();
-        return view('user.attendance.index', compact('attendance'));
+        $userId = auth()->id();
+
+        $attendance = Attendance::firstOrCreate(
+        [
+            'user_id' => $userId,
+            'date' => today(),
+        ],
+        [
+            'status' => 'before_work',
+        ]
+    );
+
+    return view('user.attendance.index', compact('attendance'));
     }
 
     public function clockIn(){
