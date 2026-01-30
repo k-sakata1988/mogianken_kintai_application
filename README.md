@@ -19,14 +19,14 @@ Laravel環境構築
 
 ## ユーザー情報
 #### 管理ユーザー
-id:admin@example.com
-password:password123
+id:admin@example.com. 
+password:password123. 
 #### 一般ユーザー:
-id:
-pass:
+id:  
+pass:  
 #### 一般ユーザー2:
-id:
-pass:
+id:  
+pass:  
 
 ## 使用技術
 - PHP 8.1.33
