@@ -19,8 +19,8 @@ Laravel環境構築
 
 ## ユーザー情報
 #### 管理ユーザー
-id:admin@example.com. 
-password:password123. 
+id:admin@example.com  
+password:password123  
 #### 一般ユーザー:
 id:  
 pass:  
