@@ -18,13 +18,14 @@ Laravel環境構築
 ![ER図](./er.drawio.png)
 
 ## ユーザー情報
-管理ユーザー
-id:admin@example.com
-password:password123
-一般ユーザー:
+#### 管理ユーザー
+id:admin@example.com/password:password123
+#### 一般ユーザー:
+id:/pass:
+#### 一般ユーザー2:
+id:/pass:
 
-
-#### 使用技術
+## 使用技術
 - PHP 8.1.33
 - Laravel 8.83.8
 - MySQL 8.0.26
