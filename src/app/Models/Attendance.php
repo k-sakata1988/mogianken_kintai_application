@@ -72,8 +72,7 @@ class Attendance extends Model
         return $this->calculateTotalBreakMinutes();
     }
 
-    public function calculateTotalBreakMinutes(): int
-    {
+    public function calculateTotalBreakMinutes(): int{
     return $this->breaks
         ->whereNotNull('break_end')
         ->sum(function ($break) {

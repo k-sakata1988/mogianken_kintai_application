@@ -7,20 +7,18 @@
 @section('content')
 <div class="admin-staff-attendance">
 
-    {{-- タイトル --}}
     <div class="admin-title">
         <span class="bar"></span>
         <h1>{{ $user->name }}さんの勤怠</h1>
     </div>
 
-    {{-- 月切替 --}}
     <div class="month-switch">
         <a href="?month={{ \Carbon\Carbon::parse($month)->subMonth()->format('Y-m') }}">
             ← 前月
         </a>
 
         <div class="current-month">
-            {{ \Carbon\Carbon::parse($month)->format('Y/m') }}
+            {{ \Carbon\Carbon::parse($month)->format('Y年m月') }}
         </div>
 
         <a href="?month={{ \Carbon\Carbon::parse($month)->addMonth()->format('Y-m') }}">
@@ -28,7 +26,6 @@
         </a>
     </div>
 
-    {{-- 勤怠一覧 --}}
     <div class="attendance-card">
         <table class="attendance-table">
             <thead>
@@ -43,24 +40,24 @@
             </thead>
             <tbody>
                 @foreach($dates as $date)
-                @php
-                $attendance = $attendances[$date->format('Y-m-d')] ?? null;
-                @endphp
-                <tr>
-                    <td>
-                        {{ $date->format('m/d') }}
-                        ({{ $date->isoFormat('ddd') }})
-                    </td>
-                    <td>{{ $attendance?->clock_in_time?->format('H:i') ?? '' }}</td>
-                    <td>{{ $attendance?->clock_out_time?->format('H:i') ?? '' }}</td>
-                    <td>{{ $attendance?->total_break_time ? gmdate('H:i', $attendance->total_break_time * 60) : '' }}</td>
-                    <td>{{ $attendance?->total_working_time ? gmdate('H:i', $attendance->total_working_time * 60) : '' }}</td>
-                    <td>
-                        @if($attendance)
-                        <a href="{{ route('admin.attendance.show', $attendance->id) }}">詳細</a>
-                        @endif
-                    </td>
-                </tr>
+                    @php
+                        $attendance = $attendances[$date->format('Y-m-d')] ?? null;
+                    @endphp
+                    <tr>
+                        <td>
+                            {{ $date->format('m/d') }}
+                            ({{ $date->isoFormat('ddd') }})
+                        </td>
+                        <td>{{ $attendance?->clock_in_time?->format('H:i') ?? '' }}</td>
+                        <td>{{ $attendance?->clock_out_time?->format('H:i') ?? '' }}</td>
+                        <td>{{ $attendance?->total_break_time ? gmdate('H:i', $attendance->total_break_time * 60) : '' }}</td>
+                        <td>{{ $attendance?->total_working_time ? gmdate('H:i', $attendance->total_working_time * 60) : '' }}</td>
+                        <td>
+                            @if($attendance)
+                                <a href="{{ route('admin.attendance.show', $attendance->id) }}">詳細</a>
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -72,7 +69,6 @@
             <button type="submit" class="btn-csv">CSV出力</button>
         </form>
     </div>
-
 
 </div>
 @endsection

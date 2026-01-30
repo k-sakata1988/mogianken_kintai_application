@@ -32,7 +32,9 @@
                 $attendance = $attendances[$date->format('Y-m-d')] ?? null;
             @endphp
             <tr>
-                <td>{{ $date->format('m/d(D)') }}</td>
+                <td>
+                    {{ \Carbon\Carbon::parse($date)->locale('ja')->isoFormat('M月D日（ddd）') }}
+                </td>
                 <td>{{ optional($attendance?->clock_in_time)->format('H:i') }}</td>
                 <td>{{ optional($attendance?->clock_out_time)->format('H:i') }}</td>
                 <td>{{ $attendance?->total_break_time ? gmdate('H:i', $attendance->total_break_time * 60) : '' }}</td>

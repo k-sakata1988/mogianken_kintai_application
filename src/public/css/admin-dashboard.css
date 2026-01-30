@@ -4,12 +4,13 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
 .admin-attendance {
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .admin-attendance__title {
@@ -54,7 +55,6 @@
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .admin-attendance__table th,
@@ -66,7 +66,7 @@
 }
 
 .admin-attendance__table th {
-    background: #fafafa;
+    background: #fff;
     font-weight: bold;
 }
 
@@ -86,7 +86,7 @@
 
 @media (min-width: 1400px) and (max-width: 1540px) {
     .admin-attendance {
-        max-width: 1100px;
+        max-width: 900px;
     }
 
     .admin-attendance__table th,

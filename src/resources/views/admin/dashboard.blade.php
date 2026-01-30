@@ -10,7 +10,6 @@
         <h1 class="admin-attendance__title">
         {{ $date->format('Y年n月j日') }}の勤怠
         </h1>
-
         <div class="admin-attendance__date-card">
             <a class="date-nav__prev" href="{{ route('admin.dashboard', ['date' => $date->copy()->subDay()->toDateString()]) }}">
             ← 前日

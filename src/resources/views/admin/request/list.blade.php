@@ -33,6 +33,7 @@
                         <th>対象日</th>
                         <th>申請理由</th>
                         <th>申請日時</th>
+                        <th>承認日時</th>
                         <th>詳細</th>
                     </tr>
                 </thead>
@@ -51,7 +52,7 @@
                             {{ $attendanceRequest->attendance->date->format('Y/m/d') }}
                         </td>
 
-                        <td>
+                        <td class="reason">
                             {{ $attendanceRequest->reason }}
                         </td>
 
@@ -75,7 +76,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">該当する申請はありません</td>
+                        <td colspan="7">該当する申請はありません</td>
                     </tr>
                 @endforelse
                 </tbody>

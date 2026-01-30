@@ -85,6 +85,5 @@
             <button type="submit" class="btn-black">修正</button>
         </div>
     </form>
-
 </div>
 @endsection

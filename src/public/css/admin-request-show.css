@@ -1,18 +1,38 @@
-.attendance-detail-card {
-    max-width: 900px;
-    margin: 80px auto;
-    padding: 40px 48px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+main {
+    background-color: #f0eff2;
+    min-height: calc(100vh - 60px);
+    padding-top: 24px;
 }
 
-.attendance-detail-card h2 {
+.admin-request-show{
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+.attendance-detail-card {
+    max-width: 900px;
+    padding: 40px 48px;
+    background: #fff;
+    border-radius: 12px;
+}
+
+.attendance-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.attendance-detail-title .bar {
+    width: 4px;
+    height: 24px;
+    background: #000;
+}
+
+.attendance-detail-title h1 {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 32px;
-    padding-left: 12px;
-    border-left: 4px solid #000;
+    margin: 0;
 }
 
 .detail-row {
@@ -67,33 +87,17 @@
     border-radius: 6px;
     font-size: 14px;
     font-weight: bold;
-    cursor: default;
 }
-
-/* .reject-button {
-    background-color: #ccc;
-    color: #333;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.reject-button:hover {
-    background-color: #aaa;
-} */
-
 
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
-
     .attendance-detail-card {
-        max-width: 1000px;
-        padding: 48px 56px;
+        max-width: 900px;
+        width: 100%;
+        padding: 20px 24px;
     }
 
-    .attendance-detail-card h2 {
+    .attendance-detail-title h1 {
         font-size: 22px;
-        margin-bottom: 40px;
     }
 
     .detail-row .label {
@@ -108,27 +112,17 @@
     .approve-button-wrapper {
         max-width: 1000px;
     }
-
-    .approve-button {
-        padding: 14px 48px;
-        font-size: 15px;
-    }
 }
 
-/* =========================
-   タブレット用（768px〜850px）
-========================= */
 @media screen and (min-width: 768px) and (max-width: 850px) {
-
     .attendance-detail-card {
         max-width: 90%;
         margin: 48px auto;
         padding: 32px 24px;
     }
 
-    .attendance-detail-card h2 {
+    .attendance-detail-title h1 {
         font-size: 18px;
-        margin-bottom: 24px;
     }
 
     .detail-row {
@@ -149,12 +143,10 @@
 
     .approve-button-wrapper {
         max-width: 90%;
-        margin-top: 16px;
     }
 
     .approve-button {
         width: 100%;
         padding: 12px 0;
-        font-size: 14px;
     }
 }
