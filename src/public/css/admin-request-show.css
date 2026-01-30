@@ -60,6 +60,16 @@
     opacity: 0.85;
 }
 
+.approved-label {
+    background: #696969;
+    color: #fff;
+    padding: 12px 40px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+}
+
 /* .reject-button {
     background-color: #ccc;
     color: #333;

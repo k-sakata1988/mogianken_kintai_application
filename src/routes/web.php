@@ -118,11 +118,6 @@ Route::middleware(['auth', 'admin'])
         Route::patch('/requests/{attendanceRequest}/approve',[AdminRequestController::class, 'approve'])
             ->name('request.approve');
 
-        // 今回は範囲外だったのでコメントアウト
-        // Route::patch('/requests/{attendanceRequest}/reject',
-        // [AdminRequestController::class, 'reject'])
-        //     ->name('admin.request.reject');
-
     });
 
 Route::get('/', function () {

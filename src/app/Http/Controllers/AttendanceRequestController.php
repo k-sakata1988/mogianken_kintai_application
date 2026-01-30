@@ -22,33 +22,27 @@ class AttendanceRequestController extends Controller
         }
 
         DB::transaction(function () use ($request, $attendance) {
-            $attendanceRequest = AttendanceRequest::create([
+            AttendanceRequest::create([
                 'attendance_id'   => $attendance->id,
                 'request_user_id' => auth()->id(),
                 'before_data'     => [
                     'clock_in_time'  => optional($attendance->clock_in_time)->format('H:i'),
                     'clock_out_time' => optional($attendance->clock_out_time)->format('H:i'),
+                    'breaks' => $attendance->breaks->map(fn ($b) => [
+                        'start' => optional($b->break_start)->format('H:i'),
+                        'end'   => optional($b->break_end)->format('H:i'),
+                    ])->toArray(),
                 ],
                 'after_data'      => [
                     'clock_in_time'  => $request->clock_in_time,
                     'clock_out_time' => $request->clock_out_time,
+                    'breaks' => collect($request->breaks ?? [])
+                        ->filter(fn ($b) => !empty($b['start']) && !empty($b['end']))
+                        ->values()
+                        ->toArray(),
                 ],
                 'reason' => $request->reason,
                 'status' => 'pending',
-            ]);
-
-            foreach ($request->breaks ?? [] as $break) {
-                if (!empty($break['start']) && !empty($break['end'])) {
-                    AttendanceBreak::create([
-                        'attendance_id' => $attendance->id,
-                        'break_start'   => $attendance->date->format('Y-m-d') . ' ' . $break['start'],
-                        'break_end'     => $attendance->date->format('Y-m-d') . ' ' . $break['end'],
-                    ]);
-                }
-            }
-
-            $attendance->update([
-                'is_modified' => true,
             ]);
         });
 

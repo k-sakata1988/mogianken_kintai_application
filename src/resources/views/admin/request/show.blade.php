@@ -33,12 +33,17 @@
         </div>
     </div>
 
+    @php
+    $breaks = $attendanceRequest->after_data['breaks'] ?? [];
+    @endphp
+
+
     <div class="detail-row">
         <div class="label">休憩</div>
         <div class="value">
-            {{ $attendanceRequest->after_data['break_start_1'] ?? '' }}
-            @if(!empty($attendanceRequest->after_data['break_end_1']))
-                〜 {{ $attendanceRequest->after_data['break_end_1'] }}
+            {{ $breaks[0]['start'] ?? '' }}
+            @if(!empty($breaks[0]['end']))
+                〜 {{ $breaks[0]['end'] }}
             @endif
         </div>
     </div>
@@ -46,12 +51,13 @@
     <div class="detail-row">
         <div class="label">休憩2</div>
         <div class="value">
-            {{ $attendanceRequest->after_data['break_start_2'] ?? '' }}
-            @if(!empty($attendanceRequest->after_data['break_end_2']))
-                〜 {{ $attendanceRequest->after_data['break_end_2'] }}
+            {{ $breaks[1]['start'] ?? '' }}
+            @if(!empty($breaks[1]['end']))
+                〜 {{ $breaks[1]['end'] }}
             @endif
         </div>
     </div>
+
 
     <div class="detail-row">
         <div class="label">備考</div>
@@ -62,22 +68,21 @@
 
 </div>
 
+@if($attendanceRequest->status === 'pending')
 <div class="approve-button-wrapper">
-    <form method="POST" action="{{ route('admin.request.approve', $attendanceRequest) }}">
+    <form method="POST" action="{{ route('admin.request.approve', $attendanceRequest->id) }}">
         @csrf
         @method('PATCH')
         <button class="approve-button">
             承認
         </button>
     </form>
-
-    <form method="POST"action="{{ route('admin.request.reject', $attendanceRequest) }}">
-        @csrf
-        @method('PATCH')
-        <button class="reject-button">
-            却下
-        </button>
-    </form>
 </div>
-
+@else
+    <div class="approve-button-wrapper">
+        <div class="approved-label">
+            承認済み
+        </div>
+    </div>
+@endif
 @endsection

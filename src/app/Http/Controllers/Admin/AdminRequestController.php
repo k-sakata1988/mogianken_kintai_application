@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminRequestController extends Controller
 {
@@ -40,63 +41,42 @@ class AdminRequestController extends Controller
 
     public function approve(AttendanceRequest $attendanceRequest)
     {
-    
         if ($attendanceRequest->status !== 'pending') {
             return redirect()
                 ->route('admin.request.list')
                 ->with('error', 'すでに処理済みです');
         }
 
-        $attendance = $attendanceRequest->attendance;
-        $after = $attendanceRequest->after_data;
+        DB::transaction(function () use ($attendanceRequest) {
 
-        $attendance->update([
-            'clock_in_time'  => $after['clock_in_time']  ?? $attendance->clock_in_time,
-            'clock_out_time' => $after['clock_out_time'] ?? $attendance->clock_out_time,
-        ]);
+            $attendance = $attendanceRequest->attendance;
+            $after = $attendanceRequest->after_data;
 
-        $attendance->breaks()->delete();
-
-        if (!empty($after['break_start_1']) && !empty($after['break_end_1'])) {
-            $attendance->breaks()->create([
-                'break_start' => $after['break_start_1'],
-                'break_end'   => $after['break_end_1'],
+            $attendance->update([
+                'clock_in_time'  => $after['clock_in_time']  ?? $attendance->clock_in_time,
+                'clock_out_time' => $after['clock_out_time'] ?? $attendance->clock_out_time,
+                'is_modified'    => true,
             ]);
-        }
 
-        if (!empty($after['break_start_2']) && !empty($after['break_end_2'])) {
-            $attendance->breaks()->create([
-                'break_start' => $after['break_start_2'],
-                'break_end'   => $after['break_end_2'],
+            $attendance->breaks()->delete();
+
+            foreach ($after['breaks'] ?? [] as $break) {
+                if (!empty($break['start']) && !empty($break['end'])) {
+                    $attendance->breaks()->create([
+                        'break_start' => $attendance->date->format('Y-m-d') . ' ' . $break['start'],
+                        'break_end'   => $attendance->date->format('Y-m-d') . ' ' . $break['end'],
+                    ]);
+                }
+            }
+
+            $attendanceRequest->update([
+                'status'           => 'approved',
+                'approver_user_id' => Auth::id(),
             ]);
-        }
-
-        $attendanceRequest->update([
-            'status' => 'approved',
-            'approver_user_id' => Auth::id(),
-        ]);
+        });
 
         return redirect()
             ->route('admin.request.list')
             ->with('success', '申請を承認しました');
     }
-
-    // public function reject(AttendanceRequest $attendanceRequest)
-    // {
-
-    //     if ($attendanceRequest->status !== 'pending') {
-    //         return redirect()
-    //             ->route('admin.request.list')
-    //             ->with('error', 'すでに処理済みです');
-    //     }
-
-    //     $attendanceRequest->update([
-    //         'status' => 'rejected',
-    //         'approver_user_id' => Auth::id(),
-    //     ]);
-
-    //     return redirect()
-    //         ->route('admin.request.list')
-    //         ->with('success', '申請を却下しました');
-    // }
 }

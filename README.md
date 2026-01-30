@@ -18,7 +18,9 @@ Laravel環境構築
 ![ER図](./er.drawio.png)
 
 ## ユーザー情報
-管理ユーザー:
+管理ユーザー
+id:admin@example.com
+password:password123
 一般ユーザー:
 
 
