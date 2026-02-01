@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
             [
                 'name'              => 'admin',
                 'password'          => Hash::make('password123'),
-                'is_admin'          => true,
+                'role'              => 'admin',
                 'email_verified_at' => now(), // 管理者はメール認証不要
             ]
         );

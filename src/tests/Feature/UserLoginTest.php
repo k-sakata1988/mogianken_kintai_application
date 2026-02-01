@@ -19,6 +19,7 @@ class UserLoginTest extends TestCase
             'name' => 'テストユーザー',
             'email' => 'testuser@example.com',
             'password' => bcrypt('password123'),
+            'role' => 'user'
         ]);
     }
 

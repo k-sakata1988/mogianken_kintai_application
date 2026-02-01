@@ -10,7 +10,7 @@
         <h1>管理者ログイン</h1>
     </div>
 
-    <form class="admin-form" method="POST" action="{{ route('login') }}">
+    <form class="admin-form" method="POST" action="{{ route('admin.login.submit') }}">
         @csrf
         <input type="hidden" name="login_type" value="admin">
 

@@ -19,7 +19,7 @@ class AdminLoginTest extends TestCase
             'name' => '管理者ユーザー',
             'email' => 'admin@example.com',
             'password' => bcrypt('adminpass123'),
-            'is_admin' => true,
+            'role' => 'admin',
         ]);
     }
 

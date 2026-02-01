@@ -14,12 +14,12 @@
     <div class="header__inner">
 
         {{-- ロゴ --}}
-        <a class="header__logo" href="{{ Auth::check() && Auth::user()->is_admin ? route('admin.dashboard') : '/' }}">
+        <a class="header__logo" href="{{ Auth::check() && Auth::user()->role === 'admin' ? route('admin.dashboard') : '/' }}">
             <img src="{{ asset('images/COACHTECHヘッダーロゴ.png') }}" alt="Coachtech Logo">
         </a>
 
         @auth
-            @if(Auth::check() && Auth::user()->is_admin)
+            @if(Auth::check() && Auth::user()->role === 'admin')
             <div class="inner_group">
                 <a class="inner_group--item" href="{{ route('admin.dashboard') }}">勤怠一覧</a>
                 <a class="inner_group--item" href="{{route('admin.staff.list')}}">スタッフ一覧</a>

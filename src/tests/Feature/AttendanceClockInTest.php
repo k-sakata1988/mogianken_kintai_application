@@ -20,7 +20,7 @@ class AttendanceClockInTest extends TestCase
             'name' => 'テストユーザー',
             'email' => 'user@example.com',
             'password' => bcrypt('password123'),
-            'is_admin' => false,
+            'role' => 'user',
         ]);
     }
 

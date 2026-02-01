@@ -21,7 +21,7 @@ class TestUserSeeder extends Seeder
             [
                 'name'              => 'テストユーザー1',
                 'password'          => Hash::make('password123'),
-                'is_admin'          => false,
+                'role'              => 'user',
                 'email_verified_at' => now(), // メール認証済み
             ]
         );
@@ -32,7 +32,7 @@ class TestUserSeeder extends Seeder
             [
                 'name'              => 'テストユーザー2',
                 'password'          => Hash::make('password123'),
-                'is_admin'          => false,
+                'role'              => 'user',
                 'email_verified_at' => now(),
             ]
         );

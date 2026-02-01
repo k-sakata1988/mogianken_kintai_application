@@ -44,43 +44,37 @@ class AdminAttendanceUpdateRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+            try {
+                if (!$this->clock_in_time || !$this->clock_out_time) return;
 
-            if (!$this->clock_in_time || !$this->clock_out_time) {
-                return;
-            }
+                $attendance = $this->route('attendance');
+                $date = $attendance->date->format('Y-m-d');
 
-            $date = $this->route('attendance')->date->format('Y-m-d');
+                $clockIn  = Carbon::parse($date . ' ' . $this->clock_in_time);
+                $clockOut = Carbon::parse($date . ' ' . $this->clock_out_time);
 
-            $clockIn  = Carbon::parse($date.' '.$this->clock_in_time);
-            $clockOut = Carbon::parse($date.' '.$this->clock_out_time);
-
-            if ($clockIn->gt($clockOut)) {
-                $validator->errors()->add(
-                    'clock_in_time',
-                    '出勤時間、もしくは退勤時間が不適切な値です。'
-                );
-            }
-
-            if ($this->filled('break_start')) {
-                $breakStart = Carbon::parse($date.' '.$this->break_start);
-
-                if ($breakStart->lt($clockIn) || $breakStart->gt($clockOut)) {
-                    $validator->errors()->add(
-                        'break_start',
-                        '休憩時間が不適切な値です。'
-                    );
+                if ($clockIn->gt($clockOut)) {
+                    $validator->errors()->add('clock_in_time', '出勤時間、もしくは退勤時間が不適切な値です。');
                 }
-            }
 
-            if ($this->filled('break_end')) {
-                $breakEnd = Carbon::parse($date.' '.$this->break_end);
-
-                if ($breakEnd->gt($clockOut)) {
-                    $validator->errors()->add(
-                        'break_end',
-                        '休憩時間、もしくは退勤時間が不適切な値です。'
-                    );
+                if ($this->filled('break_start')) {
+                    $breakStart = Carbon::parse($date . ' ' . $this->break_start);
+                    if ($breakStart->lt($clockIn) || $breakStart->gt($clockOut)) {
+                        $validator->errors()->add('break_start', '休憩時間が不適切な値です。');
+                    }
                 }
+
+                if ($this->filled('break_end')) {
+                    $breakEnd = Carbon::parse($this->break_end);
+                    $breakEnd->setDate($clockOut->year, $clockOut->month, $clockOut->day);
+
+                    if ($breakEnd->gt($clockOut)) {
+                        $validator->errors()->add('break_end', '休憩時間、もしくは退勤時間が不適切な値です。');
+                    }
+                    }
+
+            } catch (\Exception $e) {
+                $validator->errors()->add('form', '入力値が不正です。');
             }
         });
     }

@@ -44,7 +44,7 @@ class AttendanceController extends Controller
 
         return redirect()->route('user.attendance.index');
     }
-    //実働時間の計算
+
     public function clockOut()
     {
         $attendance = Attendance::where('user_id', auth()->id())
@@ -54,6 +54,7 @@ class AttendanceController extends Controller
         DB::transaction(function () use ($attendance) {
             $attendance->update([
                 'clock_out_time' => now(),
+                'status' => 'finished',
                 'total_working_time' => $attendance->calculateWorkingMinutes(),
             ]);
         });
@@ -77,7 +78,7 @@ class AttendanceController extends Controller
         ]);
         return redirect()->route('user.attendance.index');
     }
-    // 休憩時間の計算
+
     public function breakEnd()
     {
         $attendance = Attendance::where('user_id', auth()->id())->whereDate('date', today())->firstOrFail();
@@ -105,7 +106,6 @@ class AttendanceController extends Controller
         return view('user.attendance.detail', compact('attendance'));
     }
 
-    // 一覧表示
     public function monthly(Request $request)
     {
         $month = $request->query('month')? Carbon::createFromFormat('Y-m', $request->query('month')): now();

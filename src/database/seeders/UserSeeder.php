@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             [
                 'name'              => '一般ユーザー1',
                 'password'          => Hash::make('password123'),
-                'is_admin'          => false,
+                'role'              => 'user',
                 'email_verified_at' => now(),
             ]
         );
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             [
                 'name'              => '一般ユーザー2',
                 'password'          => Hash::make('password123'),
-                'is_admin'          => false,
+                'role'              => 'user',
                 'email_verified_at' => now(),
             ]
         );

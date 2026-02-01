@@ -42,7 +42,46 @@ class AttendanceUpdateRequest extends FormRequest
             'breaks.*.start.required_with' => '休憩開始と終了はセットで入力してください',
             'breaks.*.end.required_with'   => '休憩開始と終了はセットで入力してください',
 
-            'reason.required' => '備考（修正理由）は必須です',
+            'reason.required' => '備考を記入してください',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $in  = $this->input('clock_in_time');
+            $out = $this->input('clock_out_time');
+
+            if ($in && $out && $in >= $out) {
+                $validator->errors()->add(
+                    'clock_in_time',
+                    '出勤時間、もしくは退勤時間が不適切な値です'
+                );
+            }
+
+            foreach ($this->input('breaks', []) as $break) {
+                if (
+                    !empty($break['start']) &&
+                    !empty($out) &&
+                    $break['start'] >= $out
+                ) {
+                    $validator->errors()->add(
+                        'breaks',
+                        '休憩時間、もしくは退勤時間が不適切な値です'
+                    );
+                }
+
+                if (
+                    !empty($break['end']) &&
+                    !empty($out) &&
+                    $break['end'] >= $out
+                ) {
+                    $validator->errors()->add(
+                        'breaks',
+                        '休憩時間、もしくは退勤時間が不適切な値です'
+                    );
+                }
+            }
+        });
     }
 }

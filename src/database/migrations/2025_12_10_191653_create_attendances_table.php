@@ -23,6 +23,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('total_working_time')->nullable()->comment('実働時間（分）');
             $table->integer('total_break_time')->nullable()->comment('休憩時間合計（分）');
             $table->boolean('is_modified')->default(false)->comment('修正申請済みフラグ');
+            $table->text('remark')->nullable()->comment('備考');
             $table->timestamps();
         });
     }

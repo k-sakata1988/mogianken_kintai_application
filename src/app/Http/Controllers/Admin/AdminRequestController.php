@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AdminRequestController extends Controller
 {
@@ -52,14 +53,17 @@ class AdminRequestController extends Controller
             $attendance = $attendanceRequest->attendance;
             $after = $attendanceRequest->after_data;
 
-            $attendance->update([
-                'clock_in_time'  => $after['clock_in_time']  ?? $attendance->clock_in_time,
-                'clock_out_time' => $after['clock_out_time'] ?? $attendance->clock_out_time,
-                'is_modified'    => true,
-            ]);
+            if (!empty($after['clock_in_time'])) {
+                $attendance->clock_in_time = $attendance->date->format('Y-m-d') . ' ' . $after['clock_in_time'];
+            }
+            if (isset($after['clock_out_time'])) {
+                $attendance->clock_out_time = $attendance->date->format('Y-m-d') . ' ' . $after['clock_out_time'];
+            }
+
+            $attendance->is_modified = true;
+            $attendance->save();
 
             $attendance->breaks()->delete();
-
             foreach ($after['breaks'] ?? [] as $break) {
                 if (!empty($break['start']) && !empty($break['end'])) {
                     $attendance->breaks()->create([
@@ -69,10 +73,9 @@ class AdminRequestController extends Controller
                 }
             }
 
-            $attendanceRequest->update([
-                'status'           => 'approved',
-                'approver_user_id' => Auth::id(),
-            ]);
+            $attendanceRequest->status = 'approved';
+            $attendanceRequest->approver_user_id = Auth::id();
+            $attendanceRequest->save();
         });
 
         return redirect()

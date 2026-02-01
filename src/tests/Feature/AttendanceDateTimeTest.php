@@ -19,7 +19,7 @@ class AttendanceDateTimeTest extends TestCase
             'name' => '一般ユーザー',
             'email' => 'user@example.com',
             'password' => bcrypt('password123'),
-            'is_admin' => false,
+            'role' => 'user',
         ]);
 
         setlocale(LC_TIME, 'ja_JP.UTF-8');

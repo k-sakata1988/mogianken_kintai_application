@@ -17,7 +17,7 @@ class AttendanceSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::where('is_admin', false)->get();
+        $users = User::where('role', 'user')->get();
 
         foreach ($users as $user) {
 
